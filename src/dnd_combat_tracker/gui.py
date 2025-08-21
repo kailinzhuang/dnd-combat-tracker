@@ -288,7 +288,7 @@ class CombatTrackerGUI:
             entry.focus()
             self.edit_entry = entry
 
-        def save_edit():
+        def save_edit(event=None):
             new_value = entry.get().strip()
             values = list(self.tree_sorted.item(row_id, "values"))
             name = values[0]
