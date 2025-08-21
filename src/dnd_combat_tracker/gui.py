@@ -48,9 +48,33 @@ class CombatTrackerGUI:
         ttk.Radiobutton(frm_input, text="player", variable=self.category_var, value="player").grid(row=0, column=9)
         ttk.Radiobutton(frm_input, text="monster", variable=self.category_var, value="monster").grid(row=0, column=10)
 
+        # add button to add a new creature.
+        ttk.Button(frm_input, text="add", command=self.add_creature).grid(row=0, column=9, padx=5)
 
+    def add_creature(self):
+        try:
+            name = self.name_var.get().strip()
+            init = int(self.init_var.get())
+            ac = self.ac_var.get()
+            hp = self.hp_var.get()
 
-        # 
+            # must have a name. the rest can be empty... -> might make this a required field later.
+            if not name:
+                raise ValueError("name is empty.")
+            
+        except ValueError as e:
+            messagebox.showerror("invalid input", str(e))
+            return
+
+        is_player = self.category_var.get() == "player"
+        new_creature = Creature(name=name, ac=ac, hp=hp, initiative=init, is_player=is_player)
+        self.tracker.add_creature(new_creature)
+
+        # clear the input fields once the new creature has been added.
+        self.name_var.set("")
+        self.init_var.set("")
+        self.refresh()
+    
 
 if __name__ == "__main__":
     root = tk.Tk()
