@@ -62,6 +62,10 @@ class CombatTrackerGUI:
             if not name:
                 raise ValueError("name is empty.")
             
+            # also should have an init value so it can be sorted later.
+            if not init:
+                raise ValueError("initiative is empty.")
+            
         except ValueError as e:
             messagebox.showerror("invalid input", str(e))
             return
