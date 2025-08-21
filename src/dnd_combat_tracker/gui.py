@@ -153,7 +153,30 @@ class CombatTrackerGUI:
             messagebox.showerror("Error saving CSV", str(e))
 
     def start_combat(self):
-        pass
+        
+        # when a new combat is started, starting a fresh log (i.e., round, and turn info)
+        confirm = messagebox.askyesno(
+            "Start Combat!",
+            "Starting a new combat... \nreset Round = 1, Turn = 1.\n\nDo you wish to continue?"
+        )
+        if not confirm:
+            return
+
+        try:
+            self.tracker.start()
+        except ValueError as e:
+            messagebox.showerror("Error", str(e))
+            return
+
+        self.add_log("Combat started.")
+
+        # show the first creature
+        creature = self.tracker.current
+        self.lbl_current.config(
+            text=f"Round {self.tracker.round}, current turn: {creature.name})"
+        )
+        
+
     def next_turn(self):
         pass
 
