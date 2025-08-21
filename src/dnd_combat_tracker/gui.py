@@ -35,18 +35,22 @@ class CombatTrackerGUI:
         self.init_var = tk.StringVar()
         ttk.Entry(frm_input, textvariable=self.init_var, width=4).grid(row=0, column=3, padx=5, pady=5)
 
-        self.category_var = tk.StringVar(value="player")
-        ttk.Radiobutton(frm_input, text="player", variable=self.category_var, value="player").grid(row=0, column=4)
-        ttk.Radiobutton(frm_input, text="monster", variable=self.category_var, value="monster").grid(row=0, column=5)
-
-        ttk.Label(frm_input, text="AC:").grid(row=0, column=5, padx=5, pady=5)
+        ttk.Label(frm_input, text="AC:").grid(row=0, column=4, padx=5, pady=5)
         self.ac_var = tk.IntVar()  
-        ttk.Entry(frm_input, textvariable=self.ac_var, width=4).grid(row=0, column=6, padx=5, pady=5)
+        ttk.Entry(frm_input, textvariable=self.ac_var, width=4).grid(row=0, column=5, padx=5, pady=5)
 
-        ttk.Label(frm_input, text="HP:").grid(row=0, column=7, padx=5, pady=5)
+        ttk.Label(frm_input, text="HP:").grid(row=0, column=6, padx=5, pady=5)
         self.hp_var = tk.IntVar()
-        ttk.Entry(frm_input, textvariable=self.hp_var, width=4).grid(row=0, column=8, padx=5, pady=5)
-    
+        ttk.Entry(frm_input, textvariable=self.hp_var, width=4).grid(row=0, column=7, padx=5, pady=5)
+
+        ttk.Label(frm_input, text="type:").grid(row=0, column=8, padx=5, pady=5)
+        self.category_var = tk.StringVar(value="player")
+        ttk.Radiobutton(frm_input, text="player", variable=self.category_var, value="player").grid(row=0, column=9)
+        ttk.Radiobutton(frm_input, text="monster", variable=self.category_var, value="monster").grid(row=0, column=10)
+
+
+
+        # 
 
 if __name__ == "__main__":
     root = tk.Tk()
