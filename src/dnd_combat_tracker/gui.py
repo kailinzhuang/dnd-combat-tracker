@@ -51,6 +51,18 @@ class CombatTrackerGUI:
         # add button to add a new creature.
         ttk.Button(frm_input, text="add", command=self.add_creature).grid(row=0, column=11, padx=5)
 
+        # ========== iniative order table ==========
+        frm_sorted = ttk.LabelFrame(root, text="sorted by initiative")
+        frm_sorted.pack(fill="x", expand=True, padx=10, pady=10)
+
+        self.tree_sorted = ttk.Treeview(frm_sorted, columns=("name", "init", "hp", "ac", "type"), show="headings", height=20)
+        self.tree_sorted.heading("name", text="name")
+        self.tree_sorted.heading("init", text="initiative")
+        self.tree_sorted.heading("hp", text="HP")
+        self.tree_sorted.heading("ac", text="AC")
+        self.tree_sorted.heading("type", text="type")
+        self.tree_sorted.pack(fill="both", expand=True)
+
     def add_creature(self):
         try:
             name = self.name_var.get().strip()
