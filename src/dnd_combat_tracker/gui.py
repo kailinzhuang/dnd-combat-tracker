@@ -103,7 +103,28 @@ class CombatTrackerGUI:
         self.refresh()
     
     def load_csv(self):
-        pass
+        filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
+        if not filename:
+            return
+        try:
+            self.tracker.creatures.clear() # clear the current list. not sure if this is necessary/desired.
+
+            with open(filename, newline="") as f:
+                reader = csv.DictReader(f)
+
+                # for each row in the CSV, create a `Creature` object and add it
+                for row in reader:
+                    creature = Creature(
+                        name=row["name"],
+                        initiative=int(row["initiative"]),
+                        is_player=row["is_player"].lower() in ("true", "1", "yes"),
+                        hp=int(row.get("hp", 0)),
+                        ac=int(row.get("ac", 0)) # default to 0. may need to add a check later before combat.
+                    )
+                    self.tracker.add_creature(creature)
+        except Exception as e:
+            messagebox.showerror("Error loading CSV", str(e))
+
     def save_csv(self):
         pass
     def refresh(self):
