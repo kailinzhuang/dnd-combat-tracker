@@ -14,7 +14,6 @@ class Creature:
     initiative: int
     is_player: bool = False
 
-
 class CombatTrackerGUI:
     def __init__(self, root):
         self.root = root
@@ -22,6 +21,7 @@ class CombatTrackerGUI:
         self.root.geometry("1000x600")
         self.log = []
         self.edit_entry = None  # inline editor
+        root.protocol("WM_DELETE_WINDOW", self.on_close)
 
         self.tracker = CombatTracker() 
 
@@ -130,7 +130,6 @@ class CombatTrackerGUI:
                 values=(c.name, c.initiative, c.hp, c.ac, type_text)
             )
 
-
     def load_csv(self):
         filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if not filename:
@@ -165,7 +164,13 @@ class CombatTrackerGUI:
                 writer.writerow(["name", "initiative", "is_player", "hp", "ac"])
                 for c in self.tracker.creatures:
                     writer.writerow([c.name, c.initiative, c.is_player, c.hp, c.ac])
-            messagebox.showinfo(f"successfully saved: {filename}")
+            messagebox.showinfo("Success", f"Successfully saved: {filename}")
+            
+            if self.log:  # only if there is something in the log
+                save_log = messagebox.askyesno("Save Log?", "Would you also like to save the combat log?")
+                if save_log:
+                    self.save_log()
+
         except Exception as e:
             messagebox.showerror("Error saving CSV", str(e))
 
@@ -320,9 +325,39 @@ class CombatTrackerGUI:
         timestamp = datetime.now().strftime("%H:%M:%S")
         round_info = f"Round {self.tracker.round}" if hasattr(self.tracker, "round") else ""
         self.log.append(f"[{timestamp}] {round_info} — {text}")
+    
+    def save_log(self):
+        """
+        save combat log to a csv file.
+        """
+        if not self.log:
+            return
+        
+        filename = filedialog.asksaveasfilename(
+            defaultextension=".csv", filetypes=[("CSV files", "*.csv")], title="Save Combat Log"
+        )
+        if not filename:
+            return
+        
+        try:
+            with open(filename, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(["timestamped_event"])
+                for entry in self.log:
+                    writer.writerow([entry])
+            messagebox.showinfo("Success", f"Combat log saved to {filename}")
+        except Exception as e:
+            messagebox.showerror("Error saving log", str(e))
+    
+    def on_close(self):
+        if self.log:
+            if messagebox.askyesno("Quit", "There is a combat log.\nWould you like to save it before quitting?"):
+                self.save_log()
+        self.root.destroy()
 
 
 if __name__ == "__main__":
     root = tk.Tk()
     app = CombatTrackerGUI(root)
+    root.protocol("WM_DELETE_WINDOW", app.on_close)
     root.mainloop()
