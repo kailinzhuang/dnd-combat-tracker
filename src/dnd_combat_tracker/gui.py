@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import csv
+from datetime import datetime
 from .tracker import CombatTracker
 
 from dataclasses import dataclass
@@ -198,6 +199,7 @@ class CombatTrackerGUI:
             #assuming only hp changes... might add a toggle later to select what to show?
             text=f"Round {self.tracker.round}: current turn: {creature.name} (HP {creature.hp})" 
         )
+        self.add_log(f"{creature.name}'s turn started (HP {creature.hp})")
 
         # highlight current creature
         self._highlight_current_creature(creature)
@@ -212,6 +214,12 @@ class CombatTrackerGUI:
                     self.tree_sorted.item(child, tags=("highlight_monster",))
                 break
     
+    def add_log(self, text):
+        """add a timestamped entry to the combat log"""
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        round_info = f"Round {self.tracker.round}" if hasattr(self.tracker, "round") else ""
+        self.log.append(f"[{timestamp}] {round_info} — {text}")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
