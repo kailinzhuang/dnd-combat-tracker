@@ -42,4 +42,8 @@ class CombatTracker:
         if self.turn_index == -1: # if combat hasnt started
             return None
         return self.creatures[self.turn_index]
+
+    @property
+    def is_active(self) -> bool:
+        return bool(self.creatures) and self.turn_index != -1
     
