@@ -64,6 +64,7 @@ class CombatTrackerGUI:
         self.tree_sorted.heading("ac", text="AC")
         self.tree_sorted.heading("type", text="type")
         self.tree_sorted.pack(fill="both", expand=True)
+        self.tree_sorted.bind("<Double-1>", self.on_double_click)  # double click to edit HP or AC
 
         # ========== current turn ==========
         frm_current = ttk.LabelFrame(root, text="current turn")
@@ -239,6 +240,81 @@ class CombatTrackerGUI:
                     self.tree_sorted.item(child, tags=("highlight_monster",))
                 break
     
+    def on_double_click(self, event):
+        """
+        this allows editing HP or AC on double-click.
+        """
+
+        row_id = self.tree_sorted.identify_row(event.y)
+        col_id = self.tree_sorted.identify_column(event.x)
+
+        if not row_id or not col_id:
+            return
+
+        # focus on the double clocked row and column
+        self.tree_sorted.selection_set(row_id)
+        self.tree_sorted.focus(row_id)
+
+        # 0 = name, 1 = init, 2 = hp, 3 = ac, 4 = type)
+        col_index = int(col_id.replace("#", "")) - 1  
+
+        if col_index not in (2, 3, 4):
+            return
+
+        x, y, width, height = self.tree_sorted.bbox(row_id, col_id)
+        old_value = self.tree_sorted.item(row_id, "values")[col_index]
+
+        if self.edit_entry:
+            self.edit_entry.destroy()
+            self.edit_entry = None
+
+        if col_index == 4:  
+            # type 
+            entry = ttk.Combobox(self.tree_sorted, values=["player", "monster"], state="readonly")
+            entry.place(x=x, y=y, width=width, height=height)
+            entry.set(old_value)
+            entry.focus()
+            self.edit_entry = entry
+        else: 
+            # HP or AC
+            entry = tk.Entry(self.tree_sorted)
+            entry.place(x=x, y=y, width=width, height=height)
+            entry.insert(0, old_value)
+            entry.focus()
+            self.edit_entry = entry
+
+        def save_edit():
+            new_value = entry.get().strip()
+            values = list(self.tree_sorted.item(row_id, "values"))
+            name = values[0]
+
+            # update creature
+            for c in self.tracker.creatures:
+                if c.name == name:
+                    if col_index == 2:  # HP
+                        if not new_value.isdigit():
+                            messagebox.showerror("Invalid value", "HP must be a number.")
+                            return
+                        c.hp = int(new_value)
+                    elif col_index == 3:  # AC
+                        if not new_value.isdigit():
+                            messagebox.showerror("Invalid value", "AC must be a number.")
+                            return
+                        c.ac = int(new_value)
+                    break
+
+            # then update table
+            values[col_index] = new_value
+            self.tree_sorted.item(row_id, values=values)
+
+            entry.destroy()
+            self.edit_entry = None
+
+        # if press enter or click outside, save the edit
+        entry.bind("<Return>", save_edit)
+        entry.bind("<FocusOut>", save_edit)
+
+
     def add_log(self, text):
         """add a timestamped entry to the combat log"""
         timestamp = datetime.now().strftime("%H:%M:%S")
