@@ -63,6 +63,17 @@ class CombatTrackerGUI:
         self.tree_sorted.heading("type", text="type")
         self.tree_sorted.pack(fill="both", expand=True)
 
+        # =========== control buttons ==========
+        frm_ctrl = ttk.Frame(root)
+        frm_ctrl.pack(fill="x", padx=10, pady=10)
+        ttk.Button(frm_ctrl, text="load csv", command=self.load_csv).pack(side="top", padx=5)
+        ttk.Button(frm_ctrl, text="save csv", command=self.save_csv).pack(side="right", padx=5)
+        # ttk.Button(frm_ctrl, text="refresh order", command=self.refresh).pack(side="left", padx=5)
+        ttk.Button(frm_ctrl, text="start combat", command=self.start_combat).pack(side="left", padx=5)
+        ttk.Button(frm_ctrl, text="next turn", command=self.next_turn).pack(side="left", padx=5)
+        ttk.Button(frm_ctrl, text="quit", command=root.destroy).pack(side="right", padx=5)
+
+    
     def add_creature(self):
         try:
             name = self.name_var.get().strip()
@@ -91,6 +102,16 @@ class CombatTrackerGUI:
         self.init_var.set("")
         self.refresh()
     
+    def load_csv(self):
+        pass
+    def save_csv(self):
+        pass
+    def refresh(self):
+        pass
+    def start_combat(self):
+        pass
+    def next_turn(self):
+        pass
 
 if __name__ == "__main__":
     root = tk.Tk()
