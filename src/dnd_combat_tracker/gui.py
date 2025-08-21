@@ -20,12 +20,13 @@ class CombatTrackerGUI:
         self.root.title("a d&d combat tracker !")
         self.root.geometry("1000x600")
         self.log = []
+        self.edit_entry = None  # inline editor
 
         self.tracker = CombatTracker() 
 
         # ========== add a new creature: name, initiative, type ==========
         frm_input = ttk.LabelFrame(root, text="add a creature")
-        frm_input.pack(fill="x", padx=20, pady=20)
+        frm_input.pack(fill="x", padx=10, pady=10)
 
         ttk.Label(frm_input, text="name:").grid(row=0, column=0, padx=5, pady=5)
         self.name_var = tk.StringVar()
@@ -55,13 +56,21 @@ class CombatTrackerGUI:
         frm_sorted = ttk.LabelFrame(root, text="sorted by initiative")
         frm_sorted.pack(fill="x", expand=True, padx=10, pady=10)
 
-        self.tree_sorted = ttk.Treeview(frm_sorted, columns=("name", "init", "hp", "ac", "type"), show="headings", height=20)
+        self.tree_sorted = ttk.Treeview(frm_sorted, columns=("name", "init", "hp", "ac", "type"), show="headings", height=10)
         self.tree_sorted.heading("name", text="name")
         self.tree_sorted.heading("init", text="initiative")
         self.tree_sorted.heading("hp", text="HP")
         self.tree_sorted.heading("ac", text="AC")
         self.tree_sorted.heading("type", text="type")
         self.tree_sorted.pack(fill="both", expand=True)
+
+        # ========== current turn ==========
+        frm_current = ttk.LabelFrame(root, text="current turn")
+        frm_current.pack(fill="x", padx=10, pady=5)
+        self.lbl_current = ttk.Label(frm_current, text="no active combat / turn!")
+        self.lbl_current.pack(padx=5, pady=5)
+        self.tree_sorted.tag_configure("highlight_player", background="lightblue")
+        self.tree_sorted.tag_configure("highlight_monster", background="purple")
 
         # =========== control buttons ==========
         frm_ctrl = ttk.Frame(root)
@@ -104,6 +113,7 @@ class CombatTrackerGUI:
     
     def refresh(self):
         pass
+
     def load_csv(self):
         filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if not filename:
