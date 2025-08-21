@@ -129,7 +129,18 @@ class CombatTrackerGUI:
             messagebox.showerror("Error loading CSV", str(e))
 
     def save_csv(self):
-        pass
+        filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV files", "*.csv")])
+        if not filename:
+            return
+        try:
+            with open(filename, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(["name", "initiative", "is_player", "hp", "ac"])
+                for c in self.tracker.creatures:
+                    writer.writerow([c.name, c.initiative, c.is_player, c.hp, c.ac])
+            messagebox.showinfo(f"successfully saved: {filename}")
+        except Exception as e:
+            messagebox.showerror("Error saving CSV", str(e))
 
     def start_combat(self):
         pass
