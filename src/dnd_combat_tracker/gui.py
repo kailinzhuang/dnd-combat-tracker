@@ -175,10 +175,29 @@ class CombatTrackerGUI:
         self.lbl_current.config(
             text=f"Round {self.tracker.round}, current turn: {creature.name})"
         )
-        
+
 
     def next_turn(self):
-        pass
+        # make sure there is a combat happening.
+        if not self.tracker.is_active:
+            messagebox.showerror("Error", "there is no active combat! please start a combat first.")
+            return
+        
+        try:
+            creature = self.tracker.next_turn()
+        except ValueError as e:
+            messagebox.showerror("Error", str(e))
+            return
+
+        if creature is None:
+            self.lbl_current.config(text="no creature")
+            return
+
+        # update label with round info
+        self.lbl_current.config(
+            #assuming only hp changes... might add a toggle later to select what to show?
+            text=f"Round {self.tracker.round}: current turn: {creature.name} (HP {creature.hp})" 
+        )
 
 if __name__ == "__main__":
     root = tk.Tk()
