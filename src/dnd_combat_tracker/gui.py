@@ -51,7 +51,7 @@ class CombatTrackerGUI:
         # add button to add a new creature.
         ttk.Button(frm_input, text="add", command=self.add_creature).grid(row=0, column=11, padx=5)
 
-        # ========== iniative order table ==========
+        # ========== initiative order table ==========
         frm_sorted = ttk.LabelFrame(root, text="sorted by initiative")
         frm_sorted.pack(fill="x", expand=True, padx=10, pady=10)
 
