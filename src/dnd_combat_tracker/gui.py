@@ -199,6 +199,20 @@ class CombatTrackerGUI:
             text=f"Round {self.tracker.round}: current turn: {creature.name} (HP {creature.hp})" 
         )
 
+        # highlight current creature
+        self._highlight_current_creature(creature)
+
+    def _highlight_current_creature(self, creature):
+        """highlight the current creature in the initiative table"""
+        for child in self.tree_sorted.get_children():
+            if self.tree_sorted.item(child)['values'][0] == creature.name:
+                if creature.is_player:
+                    self.tree_sorted.item(child, tags=("highlight_player",))
+                else:
+                    self.tree_sorted.item(child, tags=("highlight_monster",))
+                break
+    
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = CombatTrackerGUI(root)
