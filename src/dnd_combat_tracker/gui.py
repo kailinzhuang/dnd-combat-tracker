@@ -82,7 +82,7 @@ class CombatTrackerGUI:
         ttk.Button(frm_ctrl, text="refresh", command=self.refresh).pack(side="left", padx=5)
         ttk.Button(frm_ctrl, text="start combat", command=self.start_combat).pack(side="left", padx=5)
         ttk.Button(frm_ctrl, text="next turn", command=self.next_turn).pack(side="left", padx=5)
-        ttk.Button(frm_ctrl, text="quit", command=root.destroy).pack(side="right", padx=5)
+        ttk.Button(frm_ctrl, text="quit", command=self.on_close).pack(side="right", padx=5)
 
     
     def add_creature(self):
