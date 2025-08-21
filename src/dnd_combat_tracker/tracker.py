@@ -1,5 +1,5 @@
 from typing import List, Optional
-from .models import Creature
+from dnd_combat_tracker.models import Creature
 
 class CombatTracker:
     """
