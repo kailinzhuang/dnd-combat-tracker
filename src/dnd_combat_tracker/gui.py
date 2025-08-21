@@ -68,7 +68,7 @@ class CombatTrackerGUI:
         frm_ctrl.pack(fill="x", padx=10, pady=10)
         ttk.Button(frm_ctrl, text="load csv", command=self.load_csv).pack(side="top", padx=5)
         ttk.Button(frm_ctrl, text="save csv", command=self.save_csv).pack(side="right", padx=5)
-        # ttk.Button(frm_ctrl, text="refresh order", command=self.refresh).pack(side="left", padx=5)
+        ttk.Button(frm_ctrl, text="refresh", command=self.refresh).pack(side="left", padx=5)
         ttk.Button(frm_ctrl, text="start combat", command=self.start_combat).pack(side="left", padx=5)
         ttk.Button(frm_ctrl, text="next turn", command=self.next_turn).pack(side="left", padx=5)
         ttk.Button(frm_ctrl, text="quit", command=root.destroy).pack(side="right", padx=5)
@@ -102,6 +102,8 @@ class CombatTrackerGUI:
         self.init_var.set("")
         self.refresh()
     
+    def refresh(self):
+        pass
     def load_csv(self):
         filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
         if not filename:
@@ -122,13 +124,13 @@ class CombatTrackerGUI:
                         ac=int(row.get("ac", 0)) # default to 0. may need to add a check later before combat.
                     )
                     self.tracker.add_creature(creature)
+            self.refresh()
         except Exception as e:
             messagebox.showerror("Error loading CSV", str(e))
 
     def save_csv(self):
         pass
-    def refresh(self):
-        pass
+
     def start_combat(self):
         pass
     def next_turn(self):
