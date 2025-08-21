@@ -55,7 +55,7 @@ class CombatTrackerGUI:
 
         # ========== initiative order table ==========
         frm_sorted = ttk.LabelFrame(root, text="sorted by initiative")
-        frm_sorted.pack(fill="x", expand=True, padx=10, pady=10)
+        frm_sorted.pack(fill="x", expand=True, padx=5, pady=5)
 
         self.tree_sorted = ttk.Treeview(frm_sorted, columns=("name", "init", "hp", "ac", "type"), show="headings", height=10)
         self.tree_sorted.heading("name", text="name")
@@ -76,7 +76,7 @@ class CombatTrackerGUI:
         # =========== control buttons ==========
         frm_ctrl = ttk.Frame(root)
         frm_ctrl.pack(fill="x", padx=10, pady=10)
-        ttk.Button(frm_ctrl, text="load csv", command=self.load_csv).pack(side="top", padx=5)
+        ttk.Button(frm_ctrl, text="load csv", command=self.load_csv).pack(side="left", padx=5)
         ttk.Button(frm_ctrl, text="save csv", command=self.save_csv).pack(side="right", padx=5)
         ttk.Button(frm_ctrl, text="refresh", command=self.refresh).pack(side="left", padx=5)
         ttk.Button(frm_ctrl, text="start combat", command=self.start_combat).pack(side="left", padx=5)
@@ -113,7 +113,22 @@ class CombatTrackerGUI:
         self.refresh()
     
     def refresh(self):
-        pass
+        # clear view 
+        for item in self.tree_sorted.get_children():
+            self.tree_sorted.delete(item)
+
+        # sort 
+        sorted_creatures = sorted(self.tracker.creatures, key=lambda c: c.initiative, reverse=True)
+
+        # show in tree view
+        for c in sorted_creatures:
+            type_text = "player" if c.is_player else "monster"
+            self.tree_sorted.insert(
+                "",
+                "end",
+                values=(c.name, c.initiative, c.hp, c.ac, type_text)
+            )
+
 
     def load_csv(self):
         filename = filedialog.askopenfilename(filetypes=[("CSV files", "*.csv")])
@@ -200,6 +215,16 @@ class CombatTrackerGUI:
             text=f"Round {self.tracker.round}: current turn: {creature.name} (HP {creature.hp})" 
         )
         self.add_log(f"{creature.name}'s turn started (HP {creature.hp})")
+
+        # clear highlights and selections
+        for item in self.tree_sorted.get_children():
+            self.tree_sorted.item(item, tags=())
+        self.tree_sorted.selection_remove(self.tree_sorted.selection())
+
+        # destroy inline editor if open
+        if self.edit_entry:
+            self.edit_entry.destroy()
+            self.edit_entry = None
 
         # highlight current creature
         self._highlight_current_creature(creature)
