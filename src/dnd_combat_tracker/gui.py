@@ -54,7 +54,7 @@ class CombatTrackerGUI:
         ttk.Button(frm_input, text="add", command=self.add_creature).grid(row=0, column=11, padx=5)
 
         # ========== initiative order table ==========
-        frm_sorted = ttk.LabelFrame(root, text="sorted by initiative")
+        frm_sorted = ttk.LabelFrame(root, text="sorted by initiative        tip: double click to edit; command + select to deselect")
         frm_sorted.pack(fill="x", expand=True, padx=5, pady=5)
 
         self.tree_sorted = ttk.Treeview(frm_sorted, columns=("name", "init", "hp", "ac", "type"), show="headings", height=10)
