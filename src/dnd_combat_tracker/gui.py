@@ -49,7 +49,7 @@ class CombatTrackerGUI:
         ttk.Radiobutton(frm_input, text="monster", variable=self.category_var, value="monster").grid(row=0, column=10)
 
         # add button to add a new creature.
-        ttk.Button(frm_input, text="add", command=self.add_creature).grid(row=0, column=9, padx=5)
+        ttk.Button(frm_input, text="add", command=self.add_creature).grid(row=0, column=11, padx=5)
 
     def add_creature(self):
         try:
