@@ -22,12 +22,12 @@ python -m dnd_combat_tracker.gui
 ## Load from a csv file
 Make sure to follow the same format as the example [`example_import.csv`](assets/example_import.csv) fields.
 
-![Load screen](assets/load_screen.png)
+<img src="assets/load_screen.png" width="600">
 
 ## Edit HP/AC
 Double click a field (HP/AC) to edit.
 
-![Double click edit](assets/double_click_edit.png)
+<img src="assets/double_click_edit.png" width="600">
 
 ## Export initiative csv
 
@@ -35,7 +35,7 @@ Double click a field (HP/AC) to edit.
 ## Save combat log
 Prompted to save when quitting (if there's a log).
 
-![Example log](assets/example_log.png)
+<img src="assets/example_log.png" width="300">
 
 # Acknowledgements
 THANK YOU to kate henn & james dix for many helpful suggestions and feedback !!! <3
