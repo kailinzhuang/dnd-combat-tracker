@@ -2,17 +2,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox, filedialog
 import csv
 from datetime import datetime
-from .tracker import CombatTracker
-
-from dataclasses import dataclass
-
-@dataclass
-class Creature:
-    name: str
-    hp: int
-    ac: int
-    initiative: int
-    is_player: bool = False
+from dnd_combat_tracker.tracker import CombatTracker
+from dnd_combat_tracker.models import Creature
 
 class CombatTrackerGUI:
     def __init__(self, root):
