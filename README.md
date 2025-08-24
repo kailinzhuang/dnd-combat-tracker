@@ -20,7 +20,7 @@ python -m dnd_combat_tracker.gui
 
 # Usage
 ## Load from a csv file
-Make sure to follow the same format as the example `import.csv` fields.
+Make sure to follow the same format as the example [`example_import.csv`](assets/example_import.csv) fields.
 
 ![Load screen](assets/load_screen.png)
 
