@@ -30,3 +30,6 @@ Double click a field (HP/AC) to edit.
 Prompted to save when quitting (if there's a log).
 
 ![Example log](assets/example_log.png)
+
+# Acknowledgements
+THANK YOU to kate henn & james dix for many helpful suggestions and feedback !!!
