@@ -3,7 +3,14 @@
 you can either download from the release zip (mac only) or install directly from source:
 
 ## via release
-yay first release: https://github.com/kailinzhuang/dnd-combat-tracker/releases/download/v1.0.0/DnDCombatTracker.zip
+yay first release: 
+https://github.com/kailinzhuang/dnd-combat-tracker/releases/download/v1.0.0/DnDCombatTracker.zip
+
+download the `.zip` file and double click to open
+note: you might see a security warning from mac OS and would need to go to `Settings` > `Privacy & Security` to allow open:
+
+<img src="assets/security.png" width="300">
+
 
 ## directly from src
 ``` bash
