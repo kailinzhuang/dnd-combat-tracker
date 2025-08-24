@@ -1,0 +1,5 @@
+name,initiative,is_player,hp,ac
+garlie,15,True,23,16
+dagron,12,False,59,13
+fireorc,10,False,15,13
+boomdang,8,True,28,16
