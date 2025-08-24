@@ -1,0 +1,14 @@
+[project]
+name = "dnd-combat-tracker"
+version = "0.1.0"
+description = "a d&d combat tracker gui"
+authors = [{name="kailin zhuang", email="kailinzhuang@gmail.com"}]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE.txt"]
+
+requires-python = ">=3.0"
+dependencies = ["tkinter", "typing", "csv", "datetime"]
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
