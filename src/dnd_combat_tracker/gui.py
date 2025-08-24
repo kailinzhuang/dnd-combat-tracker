@@ -55,7 +55,7 @@ class CombatTrackerGUI:
         self.tree_sorted.heading("ac", text="AC")
         self.tree_sorted.heading("type", text="type")
         self.tree_sorted.pack(fill="both", expand=True)
-        self.tree_sorted.bind("<Double-1>", self.on_double_click)  # double click to edit HP or AC
+        self.tree_sorted.bind("<Double-1>", self.on_double_click)  # double click to edit HP, AC, or initiative
 
         # ========== current turn ==========
         frm_current = ttk.LabelFrame(root, text="current turn")
@@ -238,7 +238,7 @@ class CombatTrackerGUI:
     
     def on_double_click(self, event):
         """
-        this allows editing HP or AC on double-click.
+        this allows editing HP, AC, or initiative on double-click.
         """
 
         row_id = self.tree_sorted.identify_row(event.y)
@@ -254,7 +254,7 @@ class CombatTrackerGUI:
         # 0 = name, 1 = init, 2 = hp, 3 = ac, 4 = type)
         col_index = int(col_id.replace("#", "")) - 1  
 
-        if col_index not in (2, 3, 4):
+        if col_index not in (1, 2, 3, 4):
             return
 
         x, y, width, height = self.tree_sorted.bbox(row_id, col_id)
@@ -272,7 +272,7 @@ class CombatTrackerGUI:
             entry.focus()
             self.edit_entry = entry
         else: 
-            # HP or AC
+            # HP, AC, or initiative
             entry = tk.Entry(self.tree_sorted)
             entry.place(x=x, y=y, width=width, height=height)
             entry.insert(0, old_value)
@@ -287,6 +287,11 @@ class CombatTrackerGUI:
             # update creature
             for c in self.tracker.creatures:
                 if c.name == name:
+                    if col_index == 1:  # initiative
+                        if not new_value.isdigit():
+                            messagebox.showerror("Invalid value", "initiative must be a number.")
+                            return
+                        c.initiative = int(new_value)
                     if col_index == 2:  # HP
                         if not new_value.isdigit():
                             messagebox.showerror("Invalid value", "HP must be a number.")
