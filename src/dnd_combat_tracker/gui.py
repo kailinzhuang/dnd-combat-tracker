@@ -63,7 +63,7 @@ class CombatTrackerGUI:
         self.lbl_current = ttk.Label(frm_current, text="no active combat / turn!")
         self.lbl_current.pack(padx=5, pady=5)
         self.tree_sorted.tag_configure("highlight_player", background="lightblue")
-        self.tree_sorted.tag_configure("highlight_monster", background="purple")
+        self.tree_sorted.tag_configure("highlight_monster", background="pink1")
 
         # =========== control buttons ==========
         frm_ctrl = ttk.Frame(root)
@@ -189,6 +189,8 @@ class CombatTrackerGUI:
             text=f"Round {self.tracker.round}, current turn: {creature.name})"
         )
 
+        # highlight current/first creature
+        self._highlight_current_creature(creature)
 
     def next_turn(self):
         # make sure there is a combat happening.
