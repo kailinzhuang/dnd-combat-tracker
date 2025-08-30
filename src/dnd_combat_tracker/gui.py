@@ -313,7 +313,10 @@ class CombatTrackerGUI:
 
             entry.destroy()
             self.edit_entry = None
-
+            
+            # refresh table
+            self.refresh()
+            
         # if press enter or click outside, save the edit
         entry.bind("<Return>", save_edit)
         entry.bind("<FocusOut>", save_edit)
