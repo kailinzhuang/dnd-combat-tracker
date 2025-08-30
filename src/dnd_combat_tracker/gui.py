@@ -189,6 +189,8 @@ class CombatTrackerGUI:
             text=f"Round {self.tracker.round}, current turn: {creature.name})"
         )
 
+        # highlight current/first creature
+        self._highlight_current_creature(creature)
 
     def next_turn(self):
         # make sure there is a combat happening.
