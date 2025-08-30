@@ -292,6 +292,9 @@ class CombatTrackerGUI:
                             messagebox.showerror("Invalid value", "initiative must be a number.")
                             return
                         c.initiative = int(new_value)
+
+                        # re-sort tracker after there's an initi change
+                        self.tracker.creatures.sort(key=lambda cr: cr.initiative, reverse=True)
                     if col_index == 2:  # HP
                         if not new_value.isdigit():
                             messagebox.showerror("Invalid value", "HP must be a number.")
